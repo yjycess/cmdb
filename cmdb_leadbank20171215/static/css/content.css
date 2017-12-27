@@ -1,0 +1,72 @@
+.square{
+    height: 120px;
+    background-color: #fff;
+    margin: 70px 0 0 20px;
+    width: 344px;
+    border-radius: 4px;
+}
+
+.square_pic{
+    background-color: #6ccac9;
+    width: 40%;
+    height: 120px;
+    text-align: center;
+    border-radius: 4px 0 0 4px;
+    margin-left: -15px;
+}
+
+.square_value{
+    width: 58%;
+    float: left;
+    text-align: center;
+
+}
+
+
+
+.content_table{
+    margin: 20px 0;
+    /*border: 1px solid #ffd777;*/
+    border: 1px solid #e1e1e1;
+}
+
+.content_button button {
+    padding: 1px 7px;
+    background-color: #f8fffc!important;
+    border: 1px solid #019a86;
+    color: #333 !important;
+    text-shadow: none !important;
+    line-height: 25px;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+
+.content_button button:hover{
+    background-color: #019a86!important;
+    color: #f8fffc!important;
+}
+.content_button .content_button_style {
+    background-color: #019a86!important;
+    color: #f8fffc!important;
+}
+
+.content_button button span {
+    margin-left: 5px;
+}
+
+
+.content_fenye{
+    margin-left: 863px;
+    margin-top: 20px;
+}
+.content_tu{
+    margin-top: 100px;
+}
+
+.IP_add_form{
+    margin: 0 auto;
+    width: 300px;
+    margin-top: 10px
+}
+

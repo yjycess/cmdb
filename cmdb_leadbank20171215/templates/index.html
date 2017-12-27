@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+ <meta charset="utf-8">
+     <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="/static/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="/static/fonts/font-awesome.css">
+    <link rel="stylesheet" href="/static/css/master.css">
+    <link rel="stylesheet" href="/static/css/content.css">
+    <link rel="stylesheet" href="/static/sweetalert/sweetalert.css">
+    <script type="text/javascript" src="/static/js/jquery-1.12.1.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/bootstrap.js"></script>
+    <script src="/static/js/echarts.common.min.js"></script>
+    <script src="/static/sweetalert/sweetalert.min.js"></script>
+    <script src="/static/sweetalert/sweetalert-dev.js"></script>
+
+
+{% url 'operate_info' as operate_info %}
+{% url 'operate_room' as operate_room %}
+{% url 'operate_cmd' as operate_cmd %}
+{% url 'operate_file' as operate_file %}
+
+</head>
+<body>
+
+    <div class="header">
+        <ul>
+           <li class=""> 您好：{{request.user.userprofile.name}} | <a href='{% url 'logout' %}'> 退出</a></li>
+        </ul>
+    </div>
+
+     <div class="col-md-2 select_left" style="position: fixed ;z-index: 10">
+            <p class="user_p">
+                <a href="javascript:;">
+                    <img src="/static/img/lidejingrong-logo.png" style="width: 150px">
+                </a>
+            </p>
+
+            <h5 class="user_name">
+                {{request.user.userprofile.name}}
+            </h5>
+
+        <div>
+            <ul style="list-style:none;" class="select_ul">
+
+                <li >
+                    <a href="javascript:;" class="left_dashboard select_a {% if request.path ==  operate_info or request.path == operate_room %} selected_color {% endif %} " onclick="show_item(this)" >
+                        <i class="icon-tasks" ></i>
+                        <span>资源管理</span>
+                    </a>
+                    <div class=" total_items {% if request.path !=  operate_info and request.path != operate_room   %} select_hidden  {% endif %} " >
+                        <ul style="list-style: none;">
+                            <li>
+                                <a href="{% url 'operate_info' %}" style="{% if request.path ==  operate_info %} color: #fff {% endif %}">设备信息</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'operate_room' %}" style="{% if request.path ==  operate_room %} color: #fff {% endif %}">机房信息</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li >
+                    <a href="javascript:;" class="left_dashboard select_a {% if request.path == operate_cmd or request.path == operate_file %} selected_color {% endif %}" onclick="show_item(this)">
+                        <i class="icon-tasks" ></i>
+                        <span>操作管理</span>
+                    </a>
+                    <div  class=" total_items {% if request.path != operate_cmd  and  request.path != operate_file %} select_hidden {% endif %} ">
+                        <ul style="list-style: none;">
+                            <li>
+                                <a href="{% url 'operate_cmd' %}" style="{% if request.path == operate_cmd %} color: #fff {% endif %}">执行命令</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'operate_file' %}" style="{% if request.path == operate_file %} color: #fff {% endif %}">文件分发</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+            </ul>
+
+        </div>
+
+     </div>
+
+        <div class="body_ " style="min-height: 665px;background-color: #f1f2f7;float: left;width: 100%" >
+
+            <div style="margin-left: 210px;padding-left: 25px;padding-right: 25px;">
+                    {% block content %}
+
+                    {% endblock %}
+            </div>
+        </div>
+
+
+
+</body>
+
+<script type="text/javascript">
+
+    function show_item(ths){
+        $(ths).addClass('selected_color');
+        $(ths).parent().siblings().find('a').removeClass('selected_color');
+
+        $(ths).parent().find("select_hidden").slideUp(800);
+
+        if($(ths).next().is(":hidden")){
+          $(ths).next().slideDown(800);    //如果元素为隐藏,则将它显现
+        }else {
+            $(ths).next().slideUp(800);     //如果元素为显现,则将其隐藏
+        }
+    }
+
+
+</script>
+</html>

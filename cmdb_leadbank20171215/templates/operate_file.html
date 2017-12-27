@@ -1,0 +1,70 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<div style="margin-top: 100px;margin-left: 160px">
+    <div class="col-sm-9" style="background-color: #fff;min-height: 500px;">
+      <form enctype="multipart/form-data" method="post" action="{% url 'operate_file' %}"> {% csrf_token %}
+        <div><h3 style="font-weight: bold">批量文件上传</h3></div>
+        <div style="margin: 20px 60px 0 60px">
+            <input name="upload_host"  class="form-control swtich-panel" id="upload_host"  placeholder="请输入目标主机，多台以逗号分割">
+        </div>
+        <div style="margin: 20px 60px 0 60px">
+            <input name="upload_path" class="form-control swtich-panel" id="upload_path"  placeholder="请输入目标主机上传路径">
+        </div>
+        <div style="margin: 20px 0 0 60px">
+            <span style="font-weight: bold">请选择上传文件：</span>
+            <input name="upload_file"  type="file" id="upload_file">
+        </div>
+        <div style="margin: 20px 60px 0 60px">
+            <input name="upload_file_new" class="form-control swtich-panel" id="upload_file_new"  placeholder="请输入上传后的文件名">
+        </div>
+
+      <div class="content_button" style="margin: 20px 0 0 230px">
+          <!-- <button type="submit" class="icon-check" onclick="UploadFile()" ><span>提交</span></button> -->
+           <button type="submit" class="icon-ok" data-toggle="modal" data-target="" ><span>提交</span></button>
+      </div>
+
+        <div style="margin: 20px 60px 0 60px;">
+            <pre style="overflow: auto;height: 150px;background-color: black;color: #fff" id="file_answer">
+                {{ Uploadfile }}
+            </pre>
+        </div>
+      </form>
+    </div>
+</div>
+
+
+    <script>
+
+    $(function(){
+
+    });
+      function UploadFile(){
+            var fileObj = $("#upload_file")[0].files[0];
+            var form = new FormData();
+            var upload_host = $('#upload_host').val();
+            var upload_path = $('#upload_path').val();
+            var upload_file = $('#upload_file').val();
+
+            form.append("file", fileObj);
+            form.append('upload_host',upload_host);
+            form.append('upload_path',upload_path);
+            form.append('upload_file',upload_file);
+
+            $.ajax({
+                type:'POST',
+                url: '/operate_file/',
+                data: form,
+                processData: false,  // tell jQuery not to process the data
+                contentType: false,  // tell jQuery not to set contentType
+                success: function(arg){
+
+                },
+                error:function(arg){
+
+                }
+            })
+        }
+
+    </script>
+{% endblock %}

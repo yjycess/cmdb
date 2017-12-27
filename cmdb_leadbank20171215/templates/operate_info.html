@@ -1,0 +1,99 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<div class="row content_button" style=";margin-top: 100px;">
+  <div class="col-sm-12">
+    <button type="submit" class="icon-plus"><a href="{% url 'operate_info_add' %}"><span>添加</span></a></button>
+    <button type="button" class="icon-trash"><span>删除</span></button>
+  </div>
+</div>
+
+<div  style="background-color: #fff;margin-top: 20px;width: 75%;">
+
+    <div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                <th>ID</th>
+                <th>宿主机IP</th>
+                <th>品牌</th>
+                <th>操作系统</th>
+                <th>内存(G)</th>
+                <th>CPU(C)</th>
+                <th>硬盘(G)</th>
+                <th>资产编号</th>
+                <th>机房</th>
+                <th>机柜</th>
+                <th>备注</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for server in obj_list %}
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>{{ server.id }}</td>
+                    <th>
+
+                        <a name="server_ip" class="server_ip" href="javascript:;" onclick="show_item(this)" data-toggle="modal"
+                           data-target=".bs-example-modal-lg">{{ server.ip }}</a>
+
+                        <div class=" {% if request.path !=  onclick %} select_hidden  {% endif %} ">
+                            <ul style="float: left;list-style: none;">
+                                {% for v_ip in obj_virt_ip %}
+                                    <li>{{ v_ip.virt_ip }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                    </th>
+                    <td>{{ server.device_brand }}</td> <!-- 设备品牌 -->
+                    <td>{{ server.os_system }}</td>
+                    <td>{{ server.memory }}</td>
+                    <td>{{ server.cpu }}</td>
+                    <td>{{ server.disk }}</td>
+                    <td>{{ server.sn }}</td>
+                    <td>{{ server.operate_room }}</td>
+                    <td>{{ server.operate_room_Cabinet }}</td>
+                    <td>{{ server.describtion }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+</div>
+
+<div class="content_fenye content_button">
+    <button type="button" class=" icon-chevron-left"><span>上一页</span></button>
+    <button type="button" class=" icon-chevron-right"><span>下一页</span></button>
+</div>
+
+<script type="text/javascript">
+    function show_item(ths) {
+        $(ths).parent().siblings().find('a').removeClass('selected_color');
+        $(ths).addClass('selected_color');
+        $(ths).parent().parent().find(".select_hidden").slideUp(500);
+
+        if ($(ths).next().is(":hidden")) {
+            $(ths).next().slideDown(500);    //如果元素为隐藏,则将它显现
+        } else {
+            $(ths).next().slideUp(500);     //如果元素为显现,则将其隐藏
+        }
+      }
+    //$(document).ready(function(){
+    //       meus = document.getElementsByClassName("server_ip")
+    //       console.log(meus);
+    //    });
+
+</script>
+<script type="text/javascript">
+      function show_item(ths) {
+         meus = document.getElementsByClassName("server_ip")
+         console.log(meus);
+      }
+</script>
+
+{% endblock %}

@@ -1,0 +1,337 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<div class="row content_tu">
+    <div class="col-sm-6">
+        <div style="background-color: white">
+    <div style="height: 300px;width: 500px" id="bing">
+        <script type="text/javascript">
+            var myChart = echarts.init(document.getElementById('bing'));
+
+            option = {
+                title : {
+                    text: '机房占用比率',
+                    x:'center'
+                },
+                tooltip : {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: ['金海IDC机房','软件园12楼机房','软件园14楼机房']
+                },
+                series : [
+                    {
+                        name: '机房占用比率',
+                        type: 'pie',
+                        radius : '55%',
+                        center: ['50%', '60%'],
+                        data:[
+                            {value:335, name:'金海IDC机房'},
+                            {value:310, name:'软件园12楼机房'},
+                            {value:234, name:'软件园14楼机房'},
+                        ],
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+
+            myChart.setOption(option);
+        </script>
+    </div>
+        </div>
+        </div>
+    <div class="col-sm-6">
+    <div style="background-color: white">
+        <div style="height: 300px;width: 500px;" id="zhu"></div>
+    </div>
+    </div>
+     <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('zhu'));
+
+        var option = {
+            tooltip: {
+                show: true
+            },
+            legend: {
+                data:['机房带宽']
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    data: ['金海IDC机房','软件园12楼机房','软件园14楼机房']
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value',
+                    axisLabel: {
+                    formatter: '{value} M'
+                    }
+
+                }
+            ],
+            series : [
+                {
+                    "name":"机房带宽",
+                    "type":"bar",
+                    "data":[50, 30, 10]
+                }
+            ]
+        };
+        myChart.setOption(option);
+    </script>
+</div>
+
+<div class="row content_button" style="margin-top: 30px ;">
+    <div class="col-sm-12">
+       <button type="button" class="icon-check" onclick="select_all(this)"><span>全选</span></button>
+       <button type="button" class="icon-edit" onclick="edit(this)"><span>编辑</span></button>
+        <button type="button" class="icon-plus" data-toggle="modal" data-target=".bs-example-modal-sm"><span>添加</span></button>
+        <button type="button" class="icon-trash"><span>删除</span></button>
+
+    </div>
+</div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+<div class="content_table" style="background-color: #fff">
+    <table class="table table-hover">
+    <thead>
+      <tr style="">
+          <th></th>
+          <th>ID</th>
+          <th>IP地址</th>
+          <th>CPU</th>
+          <th>Mem</th>
+          <th>Disk</th>
+          <th>服务器状态</th>
+          <th>平台</th>
+      </tr>
+    </thead>
+
+   <tbody>
+      {% for item in host_ip %}
+      <tr>
+          <td><input type="checkbox"></td>
+          <td class="id_value">{{ item.id }}</td>
+          <td class="flag_input ip_address">{{ item.ip }}</td>
+          <td class="flag_input server_name">{{ item.cpu }}</td>
+          <td class="flag_input server_name">{{ item.memory }}</td>
+          <td class="flag_input server_name">{{ item.disk }}</td>
+          <td class="flag_input ip_status">{{ item.device_status }}</td>
+          <td class="flag_input platform ">{{ item.type }}</td>
+      </tr>
+      {% endfor %}
+
+   </tbody>
+    </table>
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" id='add_ajax_form' role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm" >
+    <div class="modal-content" style="width: 400px;height: 600px">
+
+         <div style="margin-top: 50px">
+              <div class="form-group IP_add_form">
+                <label for="exampleInputEmail1">IP地址</label>
+                <input  class="form-control" id="add_ip_address" name="ip_address" placeholder="请输入IP地址">
+              </div>
+
+              <div class="form-group IP_add_form">
+                <label for="exampleInputEmail1">用户名</label>
+                <input  class="form-control" id="add_username" name="operate_room" placeholder="请输入用户名">
+              </div>
+             <div class="form-group IP_add_form">
+                <label for="exampleInputEmail1">密码</label>
+                <input type="password" class="form-control" id="add_password" name="operate_room" placeholder="密码">
+              </div>
+              <div class="form-group IP_add_form">
+                <label for="exampleInputEmail1" >主机名</label>
+                <input  class="form-control" id="add_server_name" name="server_name" placeholder="请输入主机名">
+              </div>
+              <div class="form-group IP_add_form">
+                <label for="exampleInputEmail1">服务器状态</label>
+                <select class="form-control" id="add_ip_status">
+                    <option value="add_ip_status_on">已上线</option>
+                    <option value="add_ip_status_off">已下线</option>
+                </select>
+              </div>
+              <div class="form-group IP_add_form">
+                <label for="exampleInputEmail1">平台</label>
+                <input  class="form-control" id="add_platform" name="platform" placeholder="请输入平台">
+              </div>
+             <div class="form-group IP_add_form">
+                 <input type="checkbox"   id="add_check_box" checked="checked" value="true" >
+                 <label style="margin-left: 10px;" >添加zabbix监控</label>
+             </div>
+                    <span>{{ errors_obj }}</span>
+              <div class="row content_button" style="margin-left: 140px;margin-top: 30px" >
+
+                  <button  class="icon-ok" onclick="add_hosts()"><span>提交</span></button>
+
+              </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="content_fenye content_button">
+    <button type="button" class=" icon-chevron-left"><span>上一页</span></button>
+    <button type="button" class=" icon-chevron-right"><span>下一页</span></button>
+</div>
+
+  </div>
+
+ </div>
+
+<script type="text/javascript">
+
+    function select_all(ths){
+
+
+        if($('.table').find(':checkbox').prop('checked')){
+             $('.table').find(':checkbox').prop('checked',false);
+
+        }else{
+             $('.table').find(':checkbox').prop('checked',true);
+        }
+    }//end function
+
+    function edit(ths){
+        var shuju_data = [];   //数据列表
+        if($(ths).hasClass('content_button_style')){
+            $(ths).removeClass(' content_button_style');
+            $(ths).find('span').text('编辑'); //替换成编辑，说明要保存...不要懵逼。。
+            $(".table ").find(':checkbox').each(function(){
+
+               if ($(this).prop('checked')){
+               item = $(this).parent();
+
+               //  取出标签内打标记的数据
+               var id_value = item.siblings('.id_value');
+               var ip_address = item.siblings('.ip_address').find('input');
+               var server_name = item.siblings('.server_name').find('input');
+               var ip_status = item.siblings('.ip_status').find('input');
+               var platform = item.siblings('.platform').find('input');
+
+               //将数据放入列表里。 每一行数据是一个小字典。
+               shuju_data.push({
+                    'id_value':id_value.text(),
+                    'ip_address':ip_address.val(),
+                    'server_name':server_name.val(),
+                    'ip_status':ip_status.val(),
+                    'platform':platform.val()
+
+               });
+
+               $(item).siblings(".flag_input").each(function(){
+                   var save_data = $(this).find("input").val();
+                    $(this).html('<td class="flag_input">'+save_data+'</td>')
+               })
+
+            }
+
+           }); //end table function
+
+            if(shuju_data.length){
+                console.log(shuju_data);
+                $.ajax({
+                type:'POST',
+                url:'/update/',
+                traditional:true,
+                dataType:"json",
+                data:{'ip_data':JSON.stringify(shuju_data)},
+                success:function(data){
+                    console.log(data)
+                },
+                error: function(){
+                    alert('修改失败')
+                }
+            }); //end ajax
+
+            }else{
+
+                swal("修改的数据不能为空哈。")
+            }
+
+        }else{
+
+            $(ths).addClass('content_button_style');
+            $(ths).find('span').text('保存'); //替换成保存，说明正在编辑...不要懵逼。
+            $(".table ").find(':checkbox').each(function(){
+               if ($(this).prop('checked')){
+               item = $(this).parent();
+               $(item).siblings(".flag_input").each(function(){
+                   var data = $(this).text();
+                   $(this).html('<input type="text" class="table_input" value="'+data+'">')
+               })
+            }
+           });
+        }
+    }
+
+function add_hosts(){
+    var add_data_list = [];
+    var ip = $('#add_ip_address').val();
+    var add_ip_status = $('#add_ip_status').find('option:selected').val();
+    var add_check_box = $('#add_check_box').is(':checked');   //判断是否选中
+    var add_machine_room = $('#add_machine_room').val();
+    var add_platform = $('#add_platform').val();
+    var add_server_name = $('#add_server_name').val();
+    var add_username = $('#add_username').val();
+    var add_password = $('#add_password').val();
+
+    add_data_list.push({
+        'ip':add_ip_address,
+        'add_ip_status':add_ip_status,
+        'add_check_box':add_check_box,
+        'add_machine_room':add_machine_room,
+        'add_platform':add_platform,
+        'add_server_name':add_server_name,
+        'add_username':add_username,
+        'add_password':add_password
+    });  //暂时搁置
+    console.log(add_data_list);
+    $.ajax({
+                type:'POST',
+                url:'/ip_list/',
+                traditional:true,
+                dataType:"json",
+                data: {
+                    'ip': ip,
+                    'add_ip_status': add_ip_status,
+                    'add_check_box': add_check_box,
+                    'add_platform': add_platform,
+                    'add_server_name': add_server_name,
+                    'add_username':add_username,
+                    'add_password':add_password
+                    },
+
+{#                  data:{'add_data_dict':JSON.stringify(add_data_list)},#}
+                success:function(data){
+                    if(data!='True'){
+                        swal(data)
+                    }else{
+                        $('#add_ajax_form').modal('hide')
+                    }
+
+                },
+                error: function(){
+                    swal('服务器错误')
+                }
+            }); //end ajax
+}
+</script>
+
+{% endblock %}

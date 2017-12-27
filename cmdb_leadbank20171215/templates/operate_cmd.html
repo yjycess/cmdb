@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+{% block content %}
+
+ <div style="background-color: #fff;min-height: 20px;padding: 60px;margin-left: 15px">
+    <strong>批量执行命令</strong>
+ </div>
+
+<div>
+  <div> 
+   <form action="{% url 'operate_cmd' %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}  <!-- 分片上传 -->
+      <div class="col-md-2">
+        <p><label for="exampleInputEmail1">IP地址：</label><input name="f1" placeholder="请输入目标IP"></p>
+        <p><label for="exampleInputEmail">用户名：root</label></p>
+        <p><label for="exampleInputEmail">密码：</label><input name="f3" type="password" placeholder="请输入密码"></p>
+        <p><label for="exampleInputEmail">命令：</label><input name="f4" placeholder="请输入命令"></p>
+        <input type="submit" value="执行命令" />
+      </div>
+   </form>
+  </div>
+    <div class="col-md-8" style="background-color: #fff;height: 500px;margin-left: 30px;">
+        <span><h3 style="color: #c6cad6">命令返回结果:</h3></span>
+        <textarea style="background-color: black;width: 650px;;height: 400px;overflow: auto;margin-top: 20px;color: #fff">
+          {{ commands }}
+        </textarea>
+    </div>
+</div>
+
+{% endblock %}
